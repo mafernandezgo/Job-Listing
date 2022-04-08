@@ -4,15 +4,19 @@ import { useState } from "react"
 import FilterBox from "./components/FilterBox"
 
 function App() {
-  const data = dataJson.map((jobOffer) => ({
-    ...jobOffer,
-    tags: jobOffer.languages
-      .concat(jobOffer.tools)
-      .concat(jobOffer.level)
-      .concat(jobOffer.role),
-  }))
+  const [data, setData] = useState(
+    dataJson.map((jobOffer) => ({
+      ...jobOffer,
+      tags: jobOffer.languages
+        .concat(jobOffer.tools)
+        .concat(jobOffer.level)
+        .concat(jobOffer.role),
+      apply: false,
+    }))
+  )
   const [dataFilter, setDataFilter] = useState(data)
   const [arrayFilter, setArrayFilter] = useState([])
+  const [modal, setModal] = useState(false)
 
   function TagFilter(e) {
     setArrayFilter((prevValue) => [...prevValue, e.target.innerText])
@@ -25,7 +29,23 @@ function App() {
     } else setDataFilter(data)
   }
 
-  console.log(arrayFilter)
+  function BtnApply(element) {
+    // setModal(!modal)
+    setDataFilter((prevValue) =>
+      prevValue.map((y) => {
+        if (y.company === element.company) {
+          return {
+            ...y,
+            apply: true,
+          }
+        } else {
+          return y
+        }
+      })
+    )
+  }
+
+  console.log(dataFilter)
 
   function deleteElement(element) {
     const index = arrayFilter.findIndex((item) => item === element)
@@ -37,7 +57,7 @@ function App() {
     <div className="App">
       <header>
         <img
-          src={process.env.PUBLIC_URL + "./images/bg-header-desktop.svg"}
+          src={process.env.PUBLIC_URL + "/images/bg-header-desktop.svg"}
         ></img>
       </header>
       <div className="AppWrapper">
@@ -57,16 +77,10 @@ function App() {
           {dataFilter.map((x) => {
             return (
               <Card
-                company={x.company}
-                contract={x.contract}
-                featured={x.featured}
+                BtnApply={() => BtnApply(x)}
+                dataInfo={x}
                 key={x.id}
-                location={x.location}
-                logo={x.logo}
                 newP={x.new}
-                position={x.position}
-                postedAt={x.postedAt}
-                tags={x.tags}
                 TagFilter={TagFilter}
               />
             )

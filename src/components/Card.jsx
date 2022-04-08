@@ -1,22 +1,25 @@
-export default function Card({
-  company,
-  contract,
-  featured,
-  location,
-  logo,
-  newP,
-  position,
-  postedAt,
-  tags,
-  TagFilter,
-}) {
+import { useState } from "react"
+import Modal from "./Modal"
+import { BsCheck2Circle } from "react-icons/bs"
+
+export default function Card({ BtnApply, dataInfo, newP, TagFilter }) {
+  const {
+    apply,
+    company,
+    contract,
+    featured,
+    location,
+    logo,
+    position,
+    postedAt,
+    tags,
+  } = dataInfo
+  // console.log(dataI)
+  const [modal, setModal] = useState(false)
+
   return (
     <section className="Card">
-      <img
-        src={process.env.PUBLIC_URL + logo}
-        alt={`logo ${company}`}
-        // className="imagen"
-      ></img>
+      <img src={process.env.PUBLIC_URL + logo} alt={`logo ${company}`}></img>
       <section className="CardMainInfo">
         <header className="Card-Header">
           <h3 className="Card-Company">{company}</h3>
@@ -27,9 +30,16 @@ export default function Card({
             ""
           )}
         </header>
-        <h2 className="Card-Position">{position}</h2>
+        <h2 onClick={() => setModal(!modal)} className="Card-Position">
+          {position}
+        </h2>
         <footer className="Card-Footer">
           {`${postedAt} · ${contract} · ${location}`}
+          {apply && (
+            <div className="Card-Footer-Apply">
+              Applied <BsCheck2Circle />
+            </div>
+          )}
         </footer>
       </section>
       <section className="Card-tags">
@@ -43,6 +53,14 @@ export default function Card({
             })
           : ""}
       </section>
+      {modal && (
+        <Modal
+          dataInfo={dataInfo}
+          modal={modal}
+          setModal={setModal}
+          BtnApply={BtnApply}
+        />
+      )}
     </section>
   )
 }
