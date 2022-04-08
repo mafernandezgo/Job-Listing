@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Job-Listing/static/css/main.67a8ca97.css",
+    "main.js": "/Job-Listing/static/js/main.8c9b09ac.js",
+    "static/js/787.9fbcd90a.chunk.js": "/Job-Listing/static/js/787.9fbcd90a.chunk.js",
+    "index.html": "/Job-Listing/index.html",
+    "main.67a8ca97.css.map": "/Job-Listing/static/css/main.67a8ca97.css.map",
+    "main.8c9b09ac.js.map": "/Job-Listing/static/js/main.8c9b09ac.js.map",
+    "787.9fbcd90a.chunk.js.map": "/Job-Listing/static/js/787.9fbcd90a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.67a8ca97.css",
+    "static/js/main.8c9b09ac.js"
+  ]
+}
