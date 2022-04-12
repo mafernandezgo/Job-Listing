@@ -8,7 +8,7 @@ export default function FilterBox({
   return (
     <div className="filterBox">
       {arrayFilter.map((x) => (
-        <div key={arrayFilter.indexOf(x)} className="filterTag">
+        <div key={x} className="filterTag">
           <span>{x}</span>
           <button onClick={() => deleteElement(x)} className="filterTag-Button">
             x
