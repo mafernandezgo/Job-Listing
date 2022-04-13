@@ -19,12 +19,16 @@ export default function Card({ BtnApply, dataInfo, newP, TagFilter }) {
 
   return (
     <section className="Card">
-      <img src={process.env.PUBLIC_URL + logo} alt={`logo ${company}`}></img>
+      <img
+        className="Card-Image"
+        src={process.env.PUBLIC_URL + logo}
+        alt={`logo ${company}`}
+      ></img>
       <section className="CardMainInfo">
         <header className="Card-Header">
           <h3 className="Card-Company">{company}</h3>
-          {newP == true ? <div className="newTag headerTag">NEW!</div> : ""}
-          {featured == true ? (
+          {newP ? <div className="newTag headerTag">NEW!</div> : ""}
+          {featured ? (
             <div className="featuredTag headerTag">featured</div>
           ) : (
             ""
@@ -33,6 +37,7 @@ export default function Card({ BtnApply, dataInfo, newP, TagFilter }) {
         <h2 onClick={() => setModal(!modal)} className="Card-Position">
           {position}
         </h2>
+
         <footer className="Card-Footer">
           {`${postedAt} · ${contract} · ${location}`}
           {apply && (

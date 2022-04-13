@@ -4,29 +4,30 @@ import { useState } from "react"
 import FilterBox from "./components/FilterBox"
 
 function App() {
-  const [data, setData] = useState(
-    dataJson.map((jobOffer) => ({
-      ...jobOffer,
-      tags: jobOffer.languages
-        .concat(jobOffer.tools)
-        .concat(jobOffer.level)
-        .concat(jobOffer.role),
-      apply: false,
-    }))
-  )
+  const data = dataJson.map((jobOffer) => ({
+    ...jobOffer,
+    tags: jobOffer.languages
+      .concat(jobOffer.tools)
+      .concat(jobOffer.level)
+      .concat(jobOffer.role),
+    apply: false,
+  }))
+
   const [dataFilter, setDataFilter] = useState(data)
   const [arrayFilter, setArrayFilter] = useState([])
-  const [modal, setModal] = useState(false)
 
   function TagFilter(e) {
-    setArrayFilter((prevValue) => [...prevValue, e.target.innerText])
-    if (arrayFilter.length > 0) {
-      for (let i = 0; i < arrayFilter.length; i++) {
-        setDataFilter(
-          dataFilter.filter((job) => job.tags.includes(arrayFilter[i]))
-        )
-      }
-    } else setDataFilter(data)
+    setArrayFilter((prevValue) =>
+      prevValue.includes(e.target.innerText)
+        ? prevValue
+        : [...prevValue, e.target.innerText]
+    )
+  }
+
+  function filterByTags({ filters, tags }) {
+    return filters.length > 0
+      ? filters.every((filter) => tags.includes(filter))
+      : true
   }
 
   function BtnApply(element) {
@@ -45,8 +46,6 @@ function App() {
     )
   }
 
-  console.log(dataFilter)
-
   function deleteElement(element) {
     const index = arrayFilter.findIndex((item) => item === element)
     const newArray = arrayFilter.splice(index, 1)
@@ -56,9 +55,16 @@ function App() {
   return (
     <div className="App">
       <header>
-        <img
-          src={process.env.PUBLIC_URL + "/images/bg-header-desktop.svg"}
-        ></img>
+        <picture>
+          <source
+            media="(max-width:800px)"
+            srcSet={process.env.PUBLIC_URL + "/images/bg-header-mobile.svg"}
+          ></source>
+          <img
+            alt="Header Background"
+            src={process.env.PUBLIC_URL + "/images/bg-header-desktop.svg"}
+          />
+        </picture>
       </header>
       <div className="AppWrapper">
         {arrayFilter.length > 0 ? (
@@ -74,17 +80,19 @@ function App() {
         )}
 
         <section className="List">
-          {dataFilter.map((x) => {
-            return (
-              <Card
-                BtnApply={() => BtnApply(x)}
-                dataInfo={x}
-                key={x.id}
-                newP={x.new}
-                TagFilter={TagFilter}
-              />
-            )
-          })}
+          {dataFilter
+            .filter(({ tags }) => filterByTags({ tags, filters: arrayFilter }))
+            .map((x) => {
+              return (
+                <Card
+                  BtnApply={() => BtnApply(x)}
+                  dataInfo={x}
+                  key={x.id}
+                  newP={x.new}
+                  TagFilter={TagFilter}
+                />
+              )
+            })}
         </section>
       </div>
     </div>

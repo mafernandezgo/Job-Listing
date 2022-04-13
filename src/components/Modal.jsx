@@ -1,7 +1,5 @@
-import { useState } from "react"
-
 export default function Modal({ dataInfo, BtnApply, modal, setModal }) {
-  const { apply, company, contract, location, logo, position, tags } = dataInfo
+  const { apply, company, contract, location, position } = dataInfo
 
   return (
     <div className="Modal">

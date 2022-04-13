@@ -20,7 +20,7 @@ export default function FilterBox({
           setArrayFilter([])
           setDataFilter(data)
         }}
-        className="filterBox-Button"
+        className="filterBox-ClearButton"
       >
         Clear
       </button>
